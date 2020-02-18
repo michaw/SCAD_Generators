@@ -1,0 +1,27 @@
+{
+    "parameterSets": {
+        "420 9T": {
+            "Bore_Diameter_1": "10",
+            "Bore_Diameter_2": "8",
+            "Roller_Diameter": "7.9",
+            "Roller_Pitch": "12.7",
+            "Sprocket_Thickness": "5.7",
+            "Teeth": "9",
+            "Tolerance": "0.05",
+            "bottom_shaft_d": "10",
+            "bottom_shaft_h": "0",
+            "fa": "1",
+            "fn": "0",
+            "fs": "0.25",
+            "hole_dia": "0",
+            "hole_ring_dia": "40",
+            "number_of_holes": "0",
+            "top_shaft_d": "10",
+            "top_shaft_h": "0",
+            "toptop_shaft_d": "16",
+            "toptop_shaft_h": "0"
+        }
+    },
+    "parameterSets": "",
+    "fileFormatVersion": "1"
+}
