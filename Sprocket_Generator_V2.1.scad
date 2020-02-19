@@ -2,8 +2,10 @@
 
 Sprocket generator v2.1
 
-This code is based on the code written by *Talon_1* who based his code on the work of
-*Aleksejs*. Big thanks for your contributions. The aim of this code is to be easier
+This code is based on the code written by *haand001*, who based his code on the work of 
+*Talon_1* who based his code on the work of *Aleksejs*. 
+
+Big thanks for your contributions. The aim of this code is to be easier
 understood by folks that are new to OpenSCAD. The rendered sprocket can be downloaded 
 as a .STL file and 3D-printed directly using any slicing program.
 
@@ -20,13 +22,14 @@ Roller_Diameter  = 4.15;
 Sprocket_Thickness = 2.95;
 // Distance between the rollers (center to center)
 Roller_Pitch     = 6.35;
-
+// Makes roller spaces larger
 Tolerance = 0.05;
 
 /* [Teeth] */
 
 // Number of teeth on the sprocket
 Teeth    = 10;
+// Effectively removes points on teeth
 Shorten_Teeth = false;
 
 ///////////////
