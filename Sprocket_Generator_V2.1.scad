@@ -64,7 +64,9 @@ Hole_Diameter = 4;
 // All holes will be distributed at this distance from the center of the bore
 Hole_Offset_from_Center = 40;
 
-
+/* [Output Options] */
+// Generate as projection for export to DXF
+Make_Projection=false;
 
 ///////////////////////
 // RENDERING QUALITY */
@@ -85,69 +87,80 @@ fn = 0;
 /* MAIN CODE */
 ///////////////
 
-difference()
-{
-    // Create a union of four shapes, 3 cylinders and 1 sprocket
-    union()
-    {
-        // Create sprocket using the defined module
-        sprocket(Teeth, Roller_Diameter, Roller_Pitch, Sprocket_Thickness, Tolerance);
-        
-        // Create cylinder on front side of sprocket
-        translate([0, 0, Sprocket_Thickness])
-            cylinder(top_shaft_h, top_shaft_d/2, top_shaft_d/2, $fs=fs, $fa=fa, $fn=fn);
-        
-        // Create cylinder on back side of sprocket
-        rotate([0,180])
-            cylinder(bottom_shaft_h, bottom_shaft_d/2, bottom_shaft_d/2, $fs=fs, $fa=fa, $fn=fn);
-        
-        // Create cylinder on top of the front side cylinder
-        translate([0, 0, Sprocket_Thickness+top_shaft_h])
-            cylinder(toptop_shaft_h, toptop_shaft_d/2, toptop_shaft_d/2, $fs=fs, $fa=fa, $fn=fn);
+if (Make_Projection) {
+    projection(){
+        main();
     }
-    
-    // Rest of shapes are removal of material
+} else {
+    main();
+}
 
-    // Drills out the  bore hole with 1 mm extra in both directions
-    bore_height = bottom_shaft_h+Sprocket_Thickness+top_shaft_h+toptop_shaft_h+2; 
-
-    translate([0, 0, -bottom_shaft_h-1])
+module main(){
+    difference()
     {
-        intersection()
+        // Create a union of four shapes, 3 cylinders and 1 sprocket
+        union()
         {
-            cylinder(bore_height, Bore_Diameter_1/2, Bore_Diameter_1/2, $fs=fs, $fa=fa, $fn=fn);            
-            translate([-Bore_Diameter_1/2, -Bore_Diameter_2/2, 0])
-            {
-                cube([Bore_Diameter_1, Bore_Diameter_2, bore_height]);
-            }
-        }        
-    }
+            // Create sprocket using the defined module
+            sprocket(Teeth, Roller_Diameter, Roller_Pitch, Sprocket_Thickness, Tolerance);
+            
+            // Create cylinder on front side of sprocket
+            translate([0, 0, Sprocket_Thickness])
+                cylinder(top_shaft_h, top_shaft_d/2, top_shaft_d/2, $fs=fs, $fa=fa, $fn=fn);
+            
+            // Create cylinder on back side of sprocket
+            rotate([0,180])
+                cylinder(bottom_shaft_h, bottom_shaft_d/2, bottom_shaft_d/2, $fs=fs, $fa=fa, $fn=fn);
+            
+            // Create cylinder on top of the front side cylinder
+            translate([0, 0, Sprocket_Thickness+top_shaft_h])
+                cylinder(toptop_shaft_h, toptop_shaft_d/2, toptop_shaft_d/2, $fs=fs, $fa=fa, $fn=fn);
+        }
+        
+        // Rest of shapes are removal of material
 
-    // Drills 'Number_of_Holes' many holes in a circle
-    angle_between_holes = 360/Number_of_Holes;
-    if (Number_of_Holes > 0)
-    {
-        for(hole_angle = [0:360/Number_of_Holes:360])
+        // Drills out the  bore hole with 1 mm extra in both directions
+        bore_height = bottom_shaft_h+Sprocket_Thickness+top_shaft_h+toptop_shaft_h+2; 
+
+        translate([0, 0, -bottom_shaft_h-1])
         {
-            translate([Hole_Offset_from_Center/2*cos(hole_angle), Hole_Offset_from_Center/2*sin(hole_angle), -bottom_shaft_h-1])
+            intersection()
             {
-                cylinder(h = bore_height, r = Hole_Diameter/2, $fs=fs, $fa=fa, $fn=fn);
+                cylinder(bore_height, Bore_Diameter_1/2, Bore_Diameter_1/2, $fs=fs, $fa=fa, $fn=fn);            
+                translate([-Bore_Diameter_1/2, -Bore_Diameter_2/2, 0])
+                {
+                    cube([Bore_Diameter_1, Bore_Diameter_2, bore_height]);
+                }
+            }        
+        }
+
+        // Drills 'Number_of_Holes' many holes in a circle
+        angle_between_holes = 360/Number_of_Holes;
+        if (Number_of_Holes > 0)
+        {
+            for(hole_angle = [0:360/Number_of_Holes:360])
+            {
+                translate([Hole_Offset_from_Center/2*cos(hole_angle), Hole_Offset_from_Center/2*sin(hole_angle), -bottom_shaft_h-1])
+                {
+                    cylinder(h = bore_height, r = Hole_Diameter/2, $fs=fs, $fa=fa, $fn=fn);
+                }
             }
         }
-    }
 
-    if (Shorten_Teeth) {
-        outside_diameter = Roller_Pitch * (0.6 + 1/tan(180/Teeth) );
-        translate([0,0,-1])
-        {
-            difference()
+        if (Shorten_Teeth) {
+            outside_diameter = Roller_Pitch * (0.6 + 1/tan(180/Teeth) );
+            translate([0,0,-1])
             {
-                cylinder(h=bore_height+2, d=outside_diameter+Roller_Pitch, $fs=fs, $fa=fa, $fn=fn);
-                cylinder(h=bore_height+2, d=outside_diameter, $fs=fs, $fa=fa, $fn=fn);
+                difference()
+                {
+                    cylinder(h=bore_height+2, d=outside_diameter+Roller_Pitch, $fs=fs, $fa=fa, $fn=fn);
+                    cylinder(h=bore_height+2, d=outside_diameter, $fs=fs, $fa=fa, $fn=fn);
+                }
             }
         }
     }
 }
+
 
 /////////////////////
 /* SPROCKET MODULE */
