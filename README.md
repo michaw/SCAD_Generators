@@ -15,3 +15,12 @@ Features added include:
 
 Fixes
 - Fixed always having one hole added, even if the quantity was set to zero
+
+## Battery Holder
+I created this to allow securing of an arbitrary number of SLA/AGM batteries to a platform or plate. This is designed to prevent the batteries slipping around.
+
+Features:
+- Customizable plate thickness, divider thickness & height. 
+- Option for rounded corners on the holder
+- Option for curved edges on the battery to provide a snug fit
+- Option for screw holes (2 holes, countersunk)
