@@ -148,7 +148,7 @@ module main(){
         }
 
         if (Shorten_Teeth) {
-            outside_diameter = Roller_Pitch * (0.6 + 1/tan(180/Teeth) );
+            outside_diameter = Roller_Pitch * (0.6 + 1/tan(180/Teeth) ) * 0.98;
             translate([0,0,-1])
             {
                 difference()

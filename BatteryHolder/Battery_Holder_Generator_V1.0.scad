@@ -112,12 +112,12 @@ module battery(edgeCurveRadius)
 \****************/
 module screws() 
 {
-    translate([(Battery_Width + 2*Divider_Width)/2, (Battery_Length + 2*Divider_Width)/4, 0.05])
+    translate([(Battery_Width + 2*Divider_Width)/2, (Battery_Length + 2*Divider_Width)/4, -0.05])
     {
-        cylinder(r1=0, r2=Plate_Thickness*2, h = Plate_Thickness*2, center= true, $fs = fs, $fa = fa, $fn = fn);
+        cylinder(r1=Plate_Thickness/2, r2=Plate_Thickness*1.5, h = Plate_Thickness+0.1, center=false, $fs = fs, $fa = fa, $fn = fn);
     }
-    translate([(Battery_Width + 2*Divider_Width)/2, (Battery_Length + 2*Divider_Width)*3/4, 0.05])
+    translate([(Battery_Width + 2*Divider_Width)/2, (Battery_Length + 2*Divider_Width)*3/4, -0.05])
     {
-        cylinder(r1=0, r2=Plate_Thickness*2, h = Plate_Thickness*2, center= true, $fs = fs, $fa = fa, $fn = fn);
+        cylinder(r1=Plate_Thickness/2, r2=Plate_Thickness*1.5, h = Plate_Thickness+0.1, center=false, $fs = fs, $fa = fa, $fn = fn);
     }
 }
